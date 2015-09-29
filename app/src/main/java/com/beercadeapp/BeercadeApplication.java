@@ -2,6 +2,7 @@ package com.beercadeapp;
 
 import android.app.Application;
 
+import com.beercadeapp.model.HighScore;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseObject;

@@ -7,8 +7,20 @@ import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.beercadeapp.api.HighScoreService;
+import com.beercadeapp.api.ServiceGenerator;
 import com.beercadeapp.dummy.DummyContent;
+import com.beercadeapp.model.HighScore;
+import com.beercadeapp.model.HighScoreResult;
+
+import java.util.List;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * A fragment representing a list of Items.
@@ -55,6 +67,21 @@ public class HighScoreListFragment extends ListFragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        HighScoreService highScoreService = ServiceGenerator.createService(HighScoreService.class, getString(R.string.BASE_URL));
+
+        Call<HighScoreResult> call = highScoreService.listHighScores();
+        call.enqueue(new Callback<HighScoreResult>() {
+            @Override
+            public void onResponse(Response<HighScoreResult> response, Retrofit retrofit) {
+                Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(getActivity(), "FAILED", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // TODO: Change Adapter to display your content
         setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),

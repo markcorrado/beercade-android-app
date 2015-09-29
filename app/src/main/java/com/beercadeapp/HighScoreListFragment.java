@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.beercadeapp.api.HighScoreService;
 import com.beercadeapp.api.ServiceGenerator;
-import com.beercadeapp.dummy.DummyContent;
 import com.beercadeapp.model.HighScore;
 import com.beercadeapp.model.HighScoreResult;
 
@@ -75,6 +74,9 @@ public class HighScoreListFragment extends ListFragment {
             @Override
             public void onResponse(Response<HighScoreResult> response, Retrofit retrofit) {
                 Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+
+                setListAdapter(new ArrayAdapter<HighScore>(getActivity(),
+                        android.R.layout.simple_list_item_1, android.R.id.text1, response.body().highScores));
             }
 
             @Override
@@ -82,10 +84,6 @@ public class HighScoreListFragment extends ListFragment {
                 Toast.makeText(getActivity(), "FAILED", Toast.LENGTH_SHORT).show();
             }
         });
-
-        // TODO: Change Adapter to display your content
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
     }
 
 
@@ -113,7 +111,7 @@ public class HighScoreListFragment extends ListFragment {
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+//            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
         }
     }
 

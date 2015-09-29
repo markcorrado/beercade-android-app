@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BeercadeApp.iml" filepath="$PROJECT_DIR$/BeercadeApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/beercade-android-app.iml" filepath="$PROJECT_DIR$/beercade-android-app.iml" />
     </modules>
   </component>
 </project>

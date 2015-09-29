@@ -20,4 +20,8 @@ public class HighScore extends ParseObject {
     String gameTitle;
     String playerName;
 
+    @Override
+    public String toString() {
+        return gameTitle + " " + initials + " " + score + "";
+    }
 }

@@ -8,8 +8,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_high_score" />
-    <ImageView
+    <ImageButton
         android:id="@+id/image_preview"
+        android:background="@color/app_primary"
+        android:src="@drawable/ic_image_camera_alt"
         android:layout_width="match_parent"
         android:layout_height="100dp" />
     <EditText
@@ -22,4 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/game_title"/>
+    <Button
+        android:id="@+id/send_email_button"
+        android:text="Submit High Score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>

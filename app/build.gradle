@@ -31,4 +31,7 @@ dependencies {
     compile 'com.parse:parse-android:1.10.0'
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+
+    //Picasso
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

@@ -7,6 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -26,6 +30,8 @@ public class AddHighScoreFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ImageButton mImageButton;
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,8 +69,26 @@ public class AddHighScoreFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_high_score, container, false);
+        View v = inflater.inflate(R.layout.fragment_add_high_score, container, false);
+        mImageButton = (ImageButton) v.findViewById(R.id.image_preview);
+        mImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
+        return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+//        Picasso.with(getActivity())
+//                .load(R.drawable.ic_image_camera_alt)
+////                .placeholder(R.drawable.ic_image_camera_alt)
+//                .into(mImageView);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

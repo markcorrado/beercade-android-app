@@ -181,17 +181,25 @@ public class HighScoreListFragment extends Fragment {
 
     private class HighScoreHolder extends RecyclerView.ViewHolder {
         private HighScore mHighScore;
-        private TextView mHighScoreTextView;
+        private TextView mGameTitleTextView;
+        private TextView mInitialsTextView;
+        private TextView mPlayerNameTextView;
+        private TextView mScoreTextView;
 
         public HighScoreHolder(View itemView) {
             super(itemView);
-
-            mHighScoreTextView = (TextView) itemView.findViewById(R.id.high_score_text);
+            mGameTitleTextView = (TextView) itemView.findViewById(R.id.game_title_text);
+            mInitialsTextView = (TextView) itemView.findViewById(R.id.initials_text);
+            mPlayerNameTextView = (TextView) itemView.findViewById(R.id.player_name_text);
+            mScoreTextView = (TextView) itemView.findViewById(R.id.score_text);
         }
 
         public void bindHighScore(HighScore highScore) {
             mHighScore = highScore;
-            mHighScoreTextView.setText(mHighScore.toString());
+            mGameTitleTextView.setText(mHighScore.getGameTitle());
+            mInitialsTextView.setText(mHighScore.getInitials());
+            mPlayerNameTextView.setText(mHighScore.getPlayerName());
+            mScoreTextView.setText("High Score: " + String.valueOf(mHighScore.getScore()));
         }
     }
 

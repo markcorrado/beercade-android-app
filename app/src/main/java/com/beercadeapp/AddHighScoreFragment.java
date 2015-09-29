@@ -11,8 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -31,19 +32,15 @@ import java.util.Date;
  * create an instance of this fragment.
  */
 public class AddHighScoreFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     static final int REQUEST_TAKE_PHOTO = 1;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private ImageButton mImageButton;
+    private EditText mGameTitleText;
+    private EditText mInitialsTitleText;
+    private EditText mPlayerNameTitleText;
+    private EditText mHighScoreTitleText;
     private Button mSendEmailButton;
-    String mCurrentPhotoPath;
+    String mCurrentPhotoPath = "";
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,10 +55,6 @@ public class AddHighScoreFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static AddHighScoreFragment newInstance() {
         AddHighScoreFragment fragment = new AddHighScoreFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -72,10 +65,10 @@ public class AddHighScoreFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
     }
 
     @Override
@@ -84,6 +77,10 @@ public class AddHighScoreFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_add_high_score, container, false);
         mImageButton = (ImageButton) v.findViewById(R.id.image_preview);
         mSendEmailButton = (Button) v.findViewById(R.id.send_email_button);
+        mGameTitleText = (EditText) v.findViewById(R.id.game_title_text);
+        mInitialsTitleText = (EditText) v.findViewById(R.id.initials_text);
+        mPlayerNameTitleText = (EditText) v.findViewById(R.id.player_name_text);
+        mHighScoreTitleText = (EditText) v.findViewById(R.id.score_text);
 
         mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,13 +99,24 @@ public class AddHighScoreFragment extends Fragment {
     }
 
     private void sendEmailIntent() {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/html");
-        intent.putExtra(Intent.EXTRA_EMAIL, "beercade@beercadeemail.com");
-        intent.putExtra(Intent.EXTRA_SUBJECT, "High Score for this game");
-        intent.putExtra(Intent.EXTRA_TEXT, "I'm email body.");
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(mCurrentPhotoPath));
-        startActivity(Intent.createChooser(intent, "Send Email"));
+        if(mGameTitleText.getText().toString().isEmpty() ||
+                mInitialsTitleText.getText().toString().isEmpty() ||
+                mPlayerNameTitleText.getText().toString().isEmpty() ||
+                mHighScoreTitleText.getText().toString().isEmpty() ||
+                mCurrentPhotoPath.isEmpty()) {
+            Toast.makeText(getActivity(), "All fields are required", Toast.LENGTH_LONG).show();
+        } else {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/rfc822");
+            intent.putExtra(Intent.EXTRA_EMAIL, "beercade@beercadeemail.com");
+            intent.putExtra(Intent.EXTRA_SUBJECT, "High Score for: " + mGameTitleText.getText().toString());
+            String bodyText = "Hello! I, " + mInitialsTitleText.getText().toString() + " " + mPlayerNameTitleText.getText().toString() + " achieved " +
+                    mHighScoreTitleText.getText().toString() + " on " +
+                    mGameTitleText.getText().toString();
+            intent.putExtra(Intent.EXTRA_TEXT, bodyText);
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(mCurrentPhotoPath));
+            startActivity(Intent.createChooser(intent, "Send Email"));
+        }
     }
 
     @Override

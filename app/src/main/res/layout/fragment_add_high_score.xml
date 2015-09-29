@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.beercadeapp.AddHighScoreFragment">
+    tools:context="com.beercadeapp.AddHighScoreFragment"
+    android:padding="@dimen/padding">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_high_score"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/take_picture_of_high_score"
         android:layout_weight="0" />
     <ImageButton
         android:id="@+id/image_preview"
@@ -17,16 +19,28 @@
         android:layout_height="wrap_content"
         android:layout_weight="1" />
     <EditText
+        android:id="@+id/game_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/game_title"/>
+    <EditText
         android:id="@+id/initials_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/initials"
         android:layout_weight="0" />
     <EditText
-        android:id="@+id/game_title_text"
+        android:id="@+id/player_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/game_title"/>
+        android:hint="@string/your_name"
+        android:layout_weight="0" />
+    <EditText
+        android:id="@+id/score_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/high_score"
+        android:layout_weight="0" />
     <Button
         android:id="@+id/send_email_button"
         android:text="Submit High Score"

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +22,7 @@ import com.beercadeapp.api.HighScoreService;
 import com.beercadeapp.api.ServiceGenerator;
 import com.beercadeapp.model.HighScore;
 import com.beercadeapp.model.HighScoreResult;
+import com.github.clans.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,7 @@ public class HighScoreListFragment extends Fragment {
 
     private List<HighScore>mHighScores;
     private RecyclerView mRecyclerView;
+    private FloatingActionButton mAddButton;
     private OnFragmentInteractionListener mListener;
 
     // TODO: Rename and change types of parameters
@@ -75,14 +80,38 @@ public class HighScoreListFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.recycler_view_with_fab, container, false);
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
+        mAddButton = (FloatingActionButton) v.findViewById(R.id.fab);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                AddHighScoreFragment fragment = new AddHighScoreFragment();
+                fragmentTransaction.replace(R.id.container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+        return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         HighScoreService highScoreService = ServiceGenerator.createService(HighScoreService.class, getString(R.string.BASE_URL));
 
         Call<HighScoreResult> call = highScoreService.listHighScores();
         call.enqueue(new Callback<HighScoreResult>() {
             @Override
             public void onResponse(Response<HighScoreResult> response, Retrofit retrofit) {
-                Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                 mHighScores = response.body().highScores;
                 mRecyclerView.setAdapter(new HighScoreAdapter());
             }
@@ -92,15 +121,6 @@ public class HighScoreListFragment extends Fragment {
                 Toast.makeText(getActivity(), "FAILED", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.recycler_view_with_fab, container, false);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        mRecyclerView.setAdapter(new HighScoreAdapter());
-        return v;
     }
 
     @Override

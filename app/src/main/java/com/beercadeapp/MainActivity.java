@@ -38,14 +38,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, HighScoreListFragment.OnFragmentInteractionListener
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks,
+        HighScoreListFragment.OnFragmentInteractionListener,
+        AddHighScoreFragment.OnFragmentInteractionListener
 {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    static final int REQUEST_THUMBNAIL_CAPTURE = 1;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -143,6 +144,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(String id) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 

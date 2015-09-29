@@ -3,10 +3,16 @@ package com.beercadeapp;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beercadeapp.api.HighScoreService;
@@ -14,6 +20,7 @@ import com.beercadeapp.api.ServiceGenerator;
 import com.beercadeapp.model.HighScore;
 import com.beercadeapp.model.HighScoreResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Call;
@@ -28,7 +35,7 @@ import retrofit.Retrofit;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class HighScoreListFragment extends ListFragment {
+public class HighScoreListFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,6 +46,8 @@ public class HighScoreListFragment extends ListFragment {
     private String mParam1;
     private String mParam2;
 
+    private List<HighScore>mHighScores;
+    private RecyclerView mRecyclerView;
     private OnFragmentInteractionListener mListener;
 
     // TODO: Rename and change types of parameters
@@ -74,9 +83,8 @@ public class HighScoreListFragment extends ListFragment {
             @Override
             public void onResponse(Response<HighScoreResult> response, Retrofit retrofit) {
                 Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
-
-                setListAdapter(new ArrayAdapter<HighScore>(getActivity(),
-                        android.R.layout.simple_list_item_1, android.R.id.text1, response.body().highScores));
+                mHighScores = response.body().highScores;
+                mRecyclerView.setAdapter(new HighScoreAdapter());
             }
 
             @Override
@@ -86,6 +94,14 @@ public class HighScoreListFragment extends ListFragment {
         });
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.recycler_view_with_fab, container, false);
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        mRecyclerView.setAdapter(new HighScoreAdapter());
+        return v;
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -104,16 +120,16 @@ public class HighScoreListFragment extends ListFragment {
         mListener = null;
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-
-        if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-//            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
-        }
-    }
+//    @Override
+//    public void onListItemClick(ListView l, View v, int position, long id) {
+//        super.onListItemClick(l, v, position, id);
+//
+//        if (null != mListener) {
+//            // Notify the active callbacks interface (the activity, if the
+//            // fragment is attached to one) that an item has been selected.
+////            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+//        }
+//    }
 
     @Override
     public void onAttach(Context context) {
@@ -141,6 +157,42 @@ public class HighScoreListFragment extends ListFragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
+    }
+
+    private class HighScoreHolder extends RecyclerView.ViewHolder {
+        private HighScore mHighScore;
+        private TextView mHighScoreTextView;
+
+        public HighScoreHolder(View itemView) {
+            super(itemView);
+
+            mHighScoreTextView = (TextView) itemView.findViewById(R.id.high_score_text);
+        }
+
+        public void bindHighScore(HighScore highScore) {
+            mHighScore = highScore;
+            mHighScoreTextView.setText(mHighScore.toString());
+        }
+    }
+
+    private class HighScoreAdapter extends RecyclerView.Adapter<HighScoreHolder> {
+        @Override
+        public HighScoreHolder onCreateViewHolder(ViewGroup parent, int pos) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.list_item_high_score, parent, false);
+            return new HighScoreHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(HighScoreHolder holder, int pos) {
+            HighScore highScore = mHighScores.get(pos);
+            holder.bindHighScore(highScore);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mHighScores.size();
+        }
     }
 
 }

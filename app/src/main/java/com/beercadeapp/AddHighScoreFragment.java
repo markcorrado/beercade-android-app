@@ -1,16 +1,25 @@
 package com.beercadeapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /**
@@ -26,12 +35,15 @@ public class AddHighScoreFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    static final int REQUEST_TAKE_PHOTO = 1;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private ImageButton mImageButton;
+    private Button mSendEmailButton;
+    String mCurrentPhotoPath;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,13 +83,32 @@ public class AddHighScoreFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_add_high_score, container, false);
         mImageButton = (ImageButton) v.findViewById(R.id.image_preview);
+        mSendEmailButton = (Button) v.findViewById(R.id.send_email_button);
+
         mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                dispatchTakePictureIntent();
+            }
+        });
+
+        mSendEmailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendEmailIntent();
             }
         });
         return v;
+    }
+
+    private void sendEmailIntent() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/html");
+        intent.putExtra(Intent.EXTRA_EMAIL, "beercade@beercadeemail.com");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "High Score for this game");
+        intent.putExtra(Intent.EXTRA_TEXT, "I'm email body.");
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(mCurrentPhotoPath));
+        startActivity(Intent.createChooser(intent, "Send Email"));
     }
 
     @Override
@@ -89,6 +120,46 @@ public class AddHighScoreFragment extends Fragment {
 ////                .placeholder(R.drawable.ic_image_camera_alt)
 //                .into(mImageView);
 
+    }
+
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        return image;
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                //TODO: Handle the error well.
+                // Error occurred while creating the File
+//                ...
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(photoFile));
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -130,4 +201,14 @@ public class AddHighScoreFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == -1) {
+            Picasso.with(getActivity()).load(mCurrentPhotoPath).fit().into(mImageButton);
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
+//            mImageView.setImageBitmap(imageBitmap);
+        }
+    }
 }

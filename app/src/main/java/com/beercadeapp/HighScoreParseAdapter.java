@@ -13,20 +13,21 @@ import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
-import java.util.Arrays;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * Created by markcorrado on 10/7/15.
  */
 public class HighScoreParseAdapter extends ParseQueryAdapter<HighScore> {
+    private DateFormat df = new SimpleDateFormat("M/dd/yyyy", Locale.US);
+
     public HighScoreParseAdapter(Context context) {
         super(context, new ParseQueryAdapter.QueryFactory<HighScore>() {
             public ParseQuery<HighScore> create() {
-                // Here we can configure a ParseQuery to display
-                // only top-rated meals.
                 ParseQuery query = new ParseQuery("HighScore");
-//                query.whereContainedIn("rating", Arrays.asList("5", "4"));
-                query.orderByDescending("initials");
+                query.orderByAscending("gameTitle");
                 return query;
             }
         });
@@ -63,7 +64,7 @@ public class HighScoreParseAdapter extends ParseQueryAdapter<HighScore> {
         initialsTextView.setText(highScore.getInitials());
         playerNameTextView.setText(highScore.getPlayerName());
         scoreTextView.setText(String.valueOf(highScore.getScore()));
-        dateTextView.setText(highScore.getUpdatedAt().toString());
+        dateTextView.setText(df.format(highScore.getDatePlayed()));
         return v;
     }
 }

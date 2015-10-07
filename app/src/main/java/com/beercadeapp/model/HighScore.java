@@ -36,4 +36,8 @@ public class HighScore extends ParseObject {
     public ParseFile getPhotoFile() {
         return getParseFile("gameImage");
     }
+
+    public Date getDatePlayed() {
+        return getDate("datePlayed");
+    }
 }

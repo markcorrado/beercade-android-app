@@ -82,7 +82,6 @@ public class HighScoreListFragment extends Fragment {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 AddHighScoreFragment fragment = new AddHighScoreFragment();
                 fragmentTransaction.replace(R.id.container, fragment);
-                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });

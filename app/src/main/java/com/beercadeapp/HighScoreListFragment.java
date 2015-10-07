@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,8 +24,13 @@ import com.beercadeapp.api.ServiceGenerator;
 import com.beercadeapp.model.HighScore;
 import com.beercadeapp.model.HighScoreResult;
 import com.github.clans.fab.FloatingActionButton;
+import com.parse.ParseFile;
 
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit.Call;
@@ -46,10 +52,6 @@ public class HighScoreListFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private List<HighScore>mHighScores;
     private RecyclerView mRecyclerView;
     private FloatingActionButton mAddButton;
@@ -58,10 +60,6 @@ public class HighScoreListFragment extends Fragment {
     // TODO: Rename and change types of parameters
     public static HighScoreListFragment newInstance() {
         HighScoreListFragment fragment = new HighScoreListFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -75,11 +73,6 @@ public class HighScoreListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -181,6 +174,7 @@ public class HighScoreListFragment extends Fragment {
 
     private class HighScoreHolder extends RecyclerView.ViewHolder {
         private HighScore mHighScore;
+        private ImageView mImageView;
         private TextView mGameTitleTextView;
         private TextView mInitialsTextView;
         private TextView mPlayerNameTextView;
@@ -188,6 +182,7 @@ public class HighScoreListFragment extends Fragment {
 
         public HighScoreHolder(View itemView) {
             super(itemView);
+            mImageView = (ImageView) itemView.findViewById(R.id.icon);
             mGameTitleTextView = (TextView) itemView.findViewById(R.id.game_title_text);
             mInitialsTextView = (TextView) itemView.findViewById(R.id.initials_text);
             mPlayerNameTextView = (TextView) itemView.findViewById(R.id.player_name_text);
@@ -196,10 +191,11 @@ public class HighScoreListFragment extends Fragment {
 
         public void bindHighScore(HighScore highScore) {
             mHighScore = highScore;
+            ParseFile photoFile = mHighScore.getPhotoFile();
             mGameTitleTextView.setText(mHighScore.getGameTitle());
             mInitialsTextView.setText(mHighScore.getInitials());
             mPlayerNameTextView.setText(mHighScore.getPlayerName());
-            mScoreTextView.setText("High Score: " + String.valueOf(mHighScore.getScore()));
+            mScoreTextView.setText(String.valueOf(mHighScore.getScore()));
         }
     }
 

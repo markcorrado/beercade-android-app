@@ -28,7 +28,7 @@ dependencies {
     compile 'com.github.clans:fab:1.6.1'
 
     //Networking - Parse/Retrofit/Gson
-    compile 'com.parse:parse-android:1.10.0'
+    compile 'com.parse:parse-android:1.10.2'
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
 

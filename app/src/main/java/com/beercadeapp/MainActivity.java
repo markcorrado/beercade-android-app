@@ -50,6 +50,11 @@ public class MainActivity extends AppCompatActivity
                         .replace(R.id.container, HighScoreListFragment.newInstance())
                         .commit();
                 break;
+            case 1:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, AboutUsFragment.newInstance())
+                        .commit();
+                break;
         }
 
     }
@@ -60,10 +65,7 @@ public class MainActivity extends AppCompatActivity
                 mTitle = getString(R.string.highscores);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.about_us);
                 break;
         }
     }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import java.util.Date;
  */
 public class AddHighScoreFragment extends Fragment {
     static final int REQUEST_TAKE_PHOTO = 1;
+    static final String PHOTO_PATH = "photoPath";
 
     private ImageButton mImageButton;
     private EditText mGameTitleText;
@@ -40,7 +42,7 @@ public class AddHighScoreFragment extends Fragment {
     private EditText mPlayerNameTitleText;
     private EditText mHighScoreTitleText;
     private Button mSendEmailButton;
-    String mCurrentPhotoPath = "";
+    String mCurrentPhotoPath;
 
     private OnFragmentInteractionListener mListener;
 
@@ -65,10 +67,12 @@ public class AddHighScoreFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
+        Log.e("beercade", "onCreate called");
+        if (savedInstanceState != null) {
+            mCurrentPhotoPath = savedInstanceState.getString(PHOTO_PATH);
+        } else {
+            mCurrentPhotoPath = "";
+        }
     }
 
     @Override
@@ -108,7 +112,7 @@ public class AddHighScoreFragment extends Fragment {
         } else {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/rfc822");
-            intent.putExtra(Intent.EXTRA_EMAIL, "beercade@beercadeemail.com");
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"beercade@beercade.com"});
             intent.putExtra(Intent.EXTRA_SUBJECT, "High Score for: " + mGameTitleText.getText().toString());
             String bodyText = "Hello! I, " + mInitialsTitleText.getText().toString() + " " + mPlayerNameTitleText.getText().toString() + " achieved " +
                     mHighScoreTitleText.getText().toString() + " on " +
@@ -218,5 +222,25 @@ public class AddHighScoreFragment extends Fragment {
 //            Bitmap imageBitmap = (Bitmap) extras.get("data");
 //            mImageView.setImageBitmap(imageBitmap);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current game state
+        savedInstanceState.putString(PHOTO_PATH, mCurrentPhotoPath);
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.e("beercade", "onStop called");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("beercade", "onDestroy called");
     }
 }

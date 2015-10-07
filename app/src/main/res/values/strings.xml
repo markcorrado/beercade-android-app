@@ -3,7 +3,7 @@
     <string name="BASE_URL">https://api.parse.com/1/</string>
 
     <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
+    <string name="about_us">About Us</string>
     <string name="title_section3">Section 3</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -20,4 +20,7 @@
     <string name="your_name">Your Name</string>
     <string name="high_score">High Score</string>
     <string name="take_picture_of_high_score">Take a Picture of your High Score!</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

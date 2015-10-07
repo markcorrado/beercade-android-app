@@ -5,6 +5,8 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.Date;
+
 /**
  * Created by markcorrado on 9/23/15.
  */
@@ -47,10 +49,15 @@ public class HighScore extends ParseObject {
         this.playerName = playerName;
     }
 
+    public ParseFile getPhotoFile() {
+        return getParseFile("gameImage");
+    }
+
     String initials;
     int score;
     String gameTitle;
     String playerName;
+    String updatedAt;
 
     @Override
     public String toString() {

@@ -6,14 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,12 +21,8 @@ import com.beercadeapp.model.HighScore;
 import com.beercadeapp.model.HighScoreResult;
 import com.github.clans.fab.FloatingActionButton;
 import com.parse.ParseFile;
+import com.parse.ParseQueryAdapter;
 
-import org.w3c.dom.Text;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import retrofit.Call;
@@ -53,8 +45,9 @@ public class HighScoreListFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private List<HighScore>mHighScores;
-    private RecyclerView mRecyclerView;
+    private ListView mListView;
     private FloatingActionButton mAddButton;
+    private ParseQueryAdapter<HighScore> mHighScoreParseQueryAdapter;
     private OnFragmentInteractionListener mListener;
 
     // TODO: Rename and change types of parameters
@@ -78,9 +71,9 @@ public class HighScoreListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.recycler_view_with_fab, container, false);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
+        mListView = (ListView) v.findViewById(R.id.recycler_view);
         mAddButton = (FloatingActionButton) v.findViewById(R.id.fab);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,21 +92,24 @@ public class HighScoreListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        HighScoreService highScoreService = ServiceGenerator.createService(HighScoreService.class, getString(R.string.BASE_URL));
-
-        Call<HighScoreResult> call = highScoreService.listHighScores();
-        call.enqueue(new Callback<HighScoreResult>() {
-            @Override
-            public void onResponse(Response<HighScoreResult> response, Retrofit retrofit) {
-                mHighScores = response.body().highScores;
-                mRecyclerView.setAdapter(new HighScoreAdapter());
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Toast.makeText(getActivity(), "FAILED", Toast.LENGTH_SHORT).show();
-            }
-        });
+        mHighScoreParseQueryAdapter = new HighScoreParseAdapter(getActivity());
+        mListView.setAdapter(mHighScoreParseQueryAdapter);
+//        HighScoreService highScoreService = ServiceGenerator.createService(HighScoreService.class, getString(R.string.BASE_URL));
+//
+//        Call<HighScoreResult> call = highScoreService.listHighScores();
+//        call.enqueue(new Callback<HighScoreResult>() {
+//            @Override
+//            public void onResponse(Response<HighScoreResult> response, Retrofit retrofit) {
+//                mHighScores = response.body().highScores;
+//                mHighScoreParseQueryAdapter = new HighScoreParseAdapter(getActivity());
+//                mListView.setAdapter(mHighScoreParseQueryAdapter);
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable t) {
+//                Toast.makeText(getActivity(), "FAILED", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     @Override

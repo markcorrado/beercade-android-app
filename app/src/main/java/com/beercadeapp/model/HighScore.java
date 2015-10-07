@@ -18,49 +18,22 @@ public class HighScore extends ParseObject {
     }
 
     public String getInitials() {
-        return initials;
-    }
-
-    public void setInitials(String initials) {
-        this.initials = initials;
+        return getString("initials");
     }
 
     public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
+        return getInt("score");
     }
 
     public String getGameTitle() {
-        return gameTitle;
-    }
-
-    public void setGameTitle(String gameTitle) {
-        this.gameTitle = gameTitle;
+        return getString("gameTitle");
     }
 
     public String getPlayerName() {
-        return playerName;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
+        return getString("playerName");
     }
 
     public ParseFile getPhotoFile() {
         return getParseFile("gameImage");
-    }
-
-    String initials;
-    int score;
-    String gameTitle;
-    String playerName;
-    String updatedAt;
-
-    @Override
-    public String toString() {
-        return gameTitle + " " + initials + " " + score + "";
     }
 }

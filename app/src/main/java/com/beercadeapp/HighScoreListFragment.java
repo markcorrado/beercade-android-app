@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,22 +14,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.beercadeapp.api.HighScoreService;
-import com.beercadeapp.api.ServiceGenerator;
 import com.beercadeapp.model.HighScore;
-import com.beercadeapp.model.HighScoreResult;
 import com.github.clans.fab.FloatingActionButton;
 import com.parse.ParseFile;
 import com.parse.ParseQueryAdapter;
 
 import java.util.List;
-
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * A fragment representing a list of Items.
@@ -48,6 +40,7 @@ public class HighScoreListFragment extends Fragment {
     private ListView mListView;
     private FloatingActionButton mAddButton;
     private ParseQueryAdapter<HighScore> mHighScoreParseQueryAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private OnFragmentInteractionListener mListener;
 
     // TODO: Rename and change types of parameters
@@ -71,9 +64,9 @@ public class HighScoreListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.recycler_view_with_fab, container, false);
-        mListView = (ListView) v.findViewById(R.id.recycler_view);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.main_swipe_refresh_layout);
+        mListView = (ListView) v.findViewById(R.id.list_view);
         mAddButton = (FloatingActionButton) v.findViewById(R.id.fab);
-//        mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +78,13 @@ public class HighScoreListFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mHighScoreParseQueryAdapter.loadObjects();
+            }
+        });
         return v;
     }
 
@@ -93,22 +93,18 @@ public class HighScoreListFragment extends Fragment {
         super.onStart();
         mHighScoreParseQueryAdapter = new HighScoreParseAdapter(getActivity());
         mListView.setAdapter(mHighScoreParseQueryAdapter);
-//        HighScoreService highScoreService = ServiceGenerator.createService(HighScoreService.class, getString(R.string.BASE_URL));
-//
-//        Call<HighScoreResult> call = highScoreService.listHighScores();
-//        call.enqueue(new Callback<HighScoreResult>() {
-//            @Override
-//            public void onResponse(Response<HighScoreResult> response, Retrofit retrofit) {
-//                mHighScores = response.body().highScores;
-//                mHighScoreParseQueryAdapter = new HighScoreParseAdapter(getActivity());
-//                mListView.setAdapter(mHighScoreParseQueryAdapter);
-//            }
-//
-//            @Override
-//            public void onFailure(Throwable t) {
-//                Toast.makeText(getActivity(), "FAILED", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+
+        mHighScoreParseQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<HighScore>() {
+            @Override
+            public void onLoading() {
+
+            }
+
+            @Override
+            public void onLoaded(List<HighScore> objects, Exception e) {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override

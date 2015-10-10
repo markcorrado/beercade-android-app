@@ -27,9 +27,8 @@ dependencies {
     //Fab button
     compile 'com.github.clans:fab:1.6.1'
 
-    //Parse
-//    compile 'com.parse.bolts:bolts-android:1.+'
-//    compile fileTree(dir: 'src/main/libs', include: 'Parse-*.jar')
+    //Support library for Swipe to Refresh
+    compile 'com.android.support:support-v4:23.0.+'
 
     // Module dependency on ParseUI libraries sources
     compile project(':ParseUI-Widget')

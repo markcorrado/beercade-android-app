@@ -1,8 +1,11 @@
 package com.beercadeapp;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.beercadeapp.model.HighScore;
@@ -35,18 +38,28 @@ public class HighScoreParseAdapter extends ParseQueryAdapter<HighScore> {
 
     @Override
     public View getItemView(HighScore highScore, View v, ViewGroup parent) {
+        HighScoreViewHolder viewHolder;
 
         if (v == null) {
             v = View.inflate(getContext(), R.layout.list_item_high_score, null);
+
+            viewHolder = new HighScoreViewHolder();
+            viewHolder.titleTextView = (TextView) v.findViewById(R.id.game_title_text);
+            viewHolder.initialsTextView = (TextView) v.findViewById(R.id.initials_text);
+            viewHolder.playerNameTextView = (TextView) v.findViewById(R.id.player_name_text);
+            viewHolder.scoreTextView = (TextView) v.findViewById(R.id.score_text);
+            viewHolder.dateTextView = (TextView) v.findViewById(R.id.date_text);
+            viewHolder.highScoreImageView = (ParseImageView) v.findViewById(R.id.icon);
+
+            v.setTag(viewHolder);
+        } else {
+            viewHolder = (HighScoreViewHolder) v.getTag();
         }
 
-        super.getItemView(highScore, v, parent);
-
-        ParseImageView highScoreImageView = (ParseImageView) v.findViewById(R.id.icon);
         ParseFile photoFile = highScore.getPhotoFile();
         if (photoFile != null) {
-            highScoreImageView.setParseFile(photoFile);
-            highScoreImageView.loadInBackground(new GetDataCallback() {
+            viewHolder.highScoreImageView.setParseFile(photoFile);
+            viewHolder.highScoreImageView.loadInBackground(new GetDataCallback() {
                 @Override
                 public void done(byte[] data, ParseException e) {
                     // nothing to do
@@ -54,17 +67,20 @@ public class HighScoreParseAdapter extends ParseQueryAdapter<HighScore> {
             });
         }
 
-        TextView titleTextView = (TextView) v.findViewById(R.id.game_title_text);
-        TextView initialsTextView = (TextView) v.findViewById(R.id.initials_text);
-        TextView playerNameTextView = (TextView) v.findViewById(R.id.player_name_text);
-        TextView scoreTextView = (TextView) v.findViewById(R.id.score_text);
-        TextView dateTextView = (TextView) v.findViewById(R.id.date_text);
-
-        titleTextView.setText(highScore.getGameTitle());
-        initialsTextView.setText(highScore.getInitials());
-        playerNameTextView.setText(highScore.getPlayerName());
-        scoreTextView.setText(String.valueOf(highScore.getScore()));
-        dateTextView.setText(df.format(highScore.getDatePlayed()));
+        viewHolder.titleTextView.setText(highScore.getGameTitle());
+        viewHolder.initialsTextView.setText(highScore.getInitials());
+        viewHolder.playerNameTextView.setText(highScore.getPlayerName());
+        viewHolder.scoreTextView.setText(String.valueOf(highScore.getScore()));
+        viewHolder.dateTextView.setText(df.format(highScore.getDatePlayed()));
         return v;
+    }
+
+    static class HighScoreViewHolder {
+        ParseImageView highScoreImageView;
+        TextView titleTextView;
+        TextView initialsTextView;
+        TextView playerNameTextView;
+        TextView scoreTextView;
+        TextView dateTextView;
     }
 }

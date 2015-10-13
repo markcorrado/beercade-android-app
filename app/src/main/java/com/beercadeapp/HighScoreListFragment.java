@@ -31,11 +31,6 @@ import java.util.List;
  */
 public class HighScoreListFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     private List<HighScore>mHighScores;
     private ListView mListView;
     private FloatingActionButton mAddButton;
@@ -63,7 +58,7 @@ public class HighScoreListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.recycler_view_with_fab, container, false);
+        View v = inflater.inflate(R.layout.listview_with_fab, container, false);
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.main_swipe_refresh_layout);
         mListView = (ListView) v.findViewById(R.id.list_view);
         mAddButton = (FloatingActionButton) v.findViewById(R.id.fab);
@@ -108,45 +103,16 @@ public class HighScoreListFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
-
-//    @Override
-//    public void onListItemClick(ListView l, View v, int position, long id) {
-//        super.onListItemClick(l, v, position, id);
-//
-//        if (null != mListener) {
-//            // Notify the active callbacks interface (the activity, if the
-//            // fragment is attached to one) that an item has been selected.
-////            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
-//        }
-//    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         ((MainActivity) context).onSectionAttached(1);
     }
-
-    //    @Override
-//    public void onAttach(Activity activity) {
-//        super.onAttach(activity);
-//        ((MainActivity) activity).onSectionAttached(
-//                getArguments().getInt(ARG_SECTION_NUMBER));
-//    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -162,52 +128,4 @@ public class HighScoreListFragment extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
     }
-
-    private class HighScoreHolder extends RecyclerView.ViewHolder {
-        private HighScore mHighScore;
-        private ImageView mImageView;
-        private TextView mGameTitleTextView;
-        private TextView mInitialsTextView;
-        private TextView mPlayerNameTextView;
-        private TextView mScoreTextView;
-
-        public HighScoreHolder(View itemView) {
-            super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.icon);
-            mGameTitleTextView = (TextView) itemView.findViewById(R.id.game_title_text);
-            mInitialsTextView = (TextView) itemView.findViewById(R.id.initials_text);
-            mPlayerNameTextView = (TextView) itemView.findViewById(R.id.player_name_text);
-            mScoreTextView = (TextView) itemView.findViewById(R.id.score_text);
-        }
-
-        public void bindHighScore(HighScore highScore) {
-            mHighScore = highScore;
-            ParseFile photoFile = mHighScore.getPhotoFile();
-            mGameTitleTextView.setText(mHighScore.getGameTitle());
-            mInitialsTextView.setText(mHighScore.getInitials());
-            mPlayerNameTextView.setText(mHighScore.getPlayerName());
-            mScoreTextView.setText(String.valueOf(mHighScore.getScore()));
-        }
-    }
-
-    private class HighScoreAdapter extends RecyclerView.Adapter<HighScoreHolder> {
-        @Override
-        public HighScoreHolder onCreateViewHolder(ViewGroup parent, int pos) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_high_score, parent, false);
-            return new HighScoreHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(HighScoreHolder holder, int pos) {
-            HighScore highScore = mHighScores.get(pos);
-            holder.bindHighScore(highScore);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mHighScores.size();
-        }
-    }
-
 }

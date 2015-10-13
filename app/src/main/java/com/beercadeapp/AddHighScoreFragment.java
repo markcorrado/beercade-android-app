@@ -49,9 +49,6 @@ public class AddHighScoreFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment AddHighScoreFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -126,12 +123,6 @@ public class AddHighScoreFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
-//        Picasso.with(getActivity())
-//                .load(R.drawable.ic_image_camera_alt)
-////                .placeholder(R.drawable.ic_image_camera_alt)
-//                .into(mImageView);
-
     }
 
 
@@ -218,9 +209,6 @@ public class AddHighScoreFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == -1) {
             Picasso.with(getActivity()).load(mCurrentPhotoPath).fit().into(mImageButton);
-//            Bundle extras = data.getExtras();
-//            Bitmap imageBitmap = (Bitmap) extras.get("data");
-//            mImageView.setImageBitmap(imageBitmap);
         }
     }
 

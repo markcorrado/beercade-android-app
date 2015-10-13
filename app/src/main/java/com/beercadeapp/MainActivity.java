@@ -72,11 +72,11 @@ public class MainActivity extends AppCompatActivity
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setIcon(R.mipmap.ic_launcher);
-        actionBar.setTitle(mTitle);
+        if(actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setDefaultDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(mTitle);
+        }
     }
 
 
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+//            getMenuInflater().inflate(R.menu.main, menu);
             restoreActionBar();
             return true;
         }

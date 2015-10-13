@@ -9,7 +9,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 /**
- * Created by markcorrado on 9/23/15.
+ * Created by markcorrado on 10/13/15.
  */
 public class BeercadeApplication extends Application {
 

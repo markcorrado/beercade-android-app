@@ -19,18 +19,18 @@ public class BeercadeApplication extends Application {
 
 		/*
 		 * In this tutorial, we'll subclass ParseObject for convenience to
-		 * create and modify Meal objects
+		 * create and modify HighScore objects
 		 */
         ParseObject.registerSubclass(HighScore.class);
 
 		/*
 		 * Fill in this section with your Parse credentials
 		 */
-        Parse.initialize(this, "sNK0OcqdlzQ4lXuEmSfsAcHLGrGVHPVA4T2k2lmr", "2TOB7taKWAqlCbSunPFv20Gl4WsC2VzjpgR9toUj");
+        Parse.initialize(this, getResources().getString(R.string.PARSE_ID), getResources().getString(R.string.PARSE_KEY));
 
 		/*
-		 * This app lets an anonymous user create and save photos of meals
-		 * they've eaten. An anonymous user is a user that can be created
+		 * This app lets an anonymous user create and save their high scores.
+		  * An anonymous user is a user that can be created
 		 * without a username and password but still has all of the same
 		 * capabilities as any other ParseUser.
 		 *

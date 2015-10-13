@@ -50,7 +50,6 @@ public class HighScoreParseAdapter extends ParseQueryAdapter<HighScore> {
             viewHolder.scoreTextView = (TextView) v.findViewById(R.id.score_text);
             viewHolder.dateTextView = (TextView) v.findViewById(R.id.date_text);
             viewHolder.highScoreImageView = (ParseImageView) v.findViewById(R.id.icon);
-
             v.setTag(viewHolder);
         } else {
             viewHolder = (HighScoreViewHolder) v.getTag();

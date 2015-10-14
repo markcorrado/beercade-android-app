@@ -16,18 +16,13 @@ public class BeercadeApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-		/*
-		 * In this tutorial, we'll subclass ParseObject for convenience to
-		 * create and modify HighScore objects
-		 */
+        Parse.enableLocalDatastore(this);
         ParseObject.registerSubclass(HighScore.class);
 
 		/*
 		 * Fill in this section with your Parse credentials
 		 */
         Parse.initialize(this, getResources().getString(R.string.PARSE_ID), getResources().getString(R.string.PARSE_KEY));
-
 		/*
 		 * This app lets an anonymous user create and save their high scores.
 		  * An anonymous user is a user that can be created

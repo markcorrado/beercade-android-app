@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -109,7 +110,7 @@ public class AddHighScoreFragment extends Fragment {
         } else {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/rfc822");
-            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"beercade@beercade.com"});
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources().getString(R.string.EMAIL_TO_VERIFY)});
             intent.putExtra(Intent.EXTRA_SUBJECT, "High Score for: " + mGameTitleText.getText().toString());
             String bodyText = "Hello! I, " + mInitialsTitleText.getText().toString() + " " + mPlayerNameTitleText.getText().toString() + " achieved " +
                     mHighScoreTitleText.getText().toString() + " on " +
@@ -128,7 +129,7 @@ public class AddHighScoreFragment extends Fragment {
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);

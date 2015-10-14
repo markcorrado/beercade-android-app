@@ -1,23 +1,18 @@
 package com.beercadeapp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.beercadeapp.model.HighScore;
 import com.github.clans.fab.FloatingActionButton;
-import com.parse.ParseFile;
 import com.parse.ParseQueryAdapter;
 
 import java.util.List;

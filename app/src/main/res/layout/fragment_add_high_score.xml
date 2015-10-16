@@ -11,14 +11,11 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/take_picture_of_high_score"
         android:layout_weight="0" />
-    <!--TODO: This button is ugly! Fix it!-->
-    <ImageButton
+    <ImageView
         android:id="@+id/image_preview"
-        android:background="@color/primary"
-        android:src="@drawable/ic_image_camera_alt"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:visibility="gone"/>
     <EditText
         android:id="@+id/game_title_text"
         android:layout_width="wrap_content"
@@ -54,13 +51,27 @@
         android:inputType="number"
         android:imeOptions="actionDone"
         android:lines="1"/>
-    <Button
-        android:id="@+id/send_email_button"
-        android:text="Submit High Score"
-        android:background="@color/primary"
-        android:textColor="@color/primary_text"
-        android:padding="@dimen/padding"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+        android:orientation="horizontal"
+        android:padding="@dimen/padding">
+        <Button
+            android:id="@+id/take_picture_button"
+            android:text="@string/camera"
+            style="@style/BrandedButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding"/>
+        <Button
+            android:id="@+id/send_email_button"
+            android:text="@string/submit_high_score"
+            style="@style/BrandedButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding"/>
+    </LinearLayout>
+
 </LinearLayout>

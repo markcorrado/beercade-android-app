@@ -1,4 +1,7 @@
 # beercade-android-app
+
+** Work in Progess **
+
 This is an Android app to keep track of high scores at Beercade in Omaha, NE.
 
 There is a list of the high scores and you can click the add button on the bottom right.  If you take a picture of the screen after you achieve your high score and fill out the required information and press "Submit", An email to the establishment will be pre-filled out for you and the admin will update the database when they verify the score!

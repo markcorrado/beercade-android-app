@@ -9,4 +9,9 @@
         <item name="android:textColorPrimary">@color/primary_text</item>
     </style>
 
+    <style name="BrandedButton">
+        <item name="android:background">@color/primary</item>
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+
 </resources>

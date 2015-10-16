@@ -1,5 +1,6 @@
 package com.beercadeapp;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -37,7 +40,8 @@ public class AddHighScoreFragment extends Fragment {
     static final int REQUEST_TAKE_PHOTO = 1;
     static final String PHOTO_PATH = "photoPath";
 
-    private ImageButton mImageButton;
+    private Button mTakePictureButton;
+    private ImageView mImagePreview;
     private EditText mGameTitleText;
     private EditText mInitialsTitleText;
     private EditText mPlayerNameTitleText;
@@ -77,14 +81,15 @@ public class AddHighScoreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_add_high_score, container, false);
-        mImageButton = (ImageButton) v.findViewById(R.id.image_preview);
+        mTakePictureButton = (Button) v.findViewById(R.id.take_picture_button);
+        mImagePreview = (ImageView) v.findViewById(R.id.image_preview);
         mSendEmailButton = (Button) v.findViewById(R.id.send_email_button);
         mGameTitleText = (EditText) v.findViewById(R.id.game_title_text);
         mInitialsTitleText = (EditText) v.findViewById(R.id.initials_text);
         mPlayerNameTitleText = (EditText) v.findViewById(R.id.player_name_text);
         mHighScoreTitleText = (EditText) v.findViewById(R.id.score_text);
 
-        mImageButton.setOnClickListener(new View.OnClickListener() {
+        mTakePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dispatchTakePictureIntent();
@@ -209,7 +214,8 @@ public class AddHighScoreFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == -1) {
-            Picasso.with(getActivity()).load(mCurrentPhotoPath).fit().into(mImageButton);
+            Picasso.with(getActivity()).load(mCurrentPhotoPath).fit().into(mImagePreview);
+            mImagePreview.setVisibility(View.VISIBLE);
         }
     }
 

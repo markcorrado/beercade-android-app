@@ -3,10 +3,12 @@ package com.beercadeapp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -37,7 +39,9 @@ import java.util.Locale;
  * create an instance of this fragment.
  */
 public class AddHighScoreFragment extends Fragment {
+    static final String TAG = "AddHighScoreFragment";
     static final int REQUEST_TAKE_PHOTO = 1;
+    static final int PERMISSIONS_REQUEST_READ_STORAGE = 2;
     static final String PHOTO_PATH = "photoPath";
 
     private Button mTakePictureButton;
@@ -92,7 +96,26 @@ public class AddHighScoreFragment extends Fragment {
         mTakePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dispatchTakePictureIntent();
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    // Should we show an explanation?
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                        // Show an expanation to the user *asynchronously* -- don't block
+                        // this thread waiting for the user's response! After the user
+                        // sees the explanation, try again to request the permission.
+
+                    } else {
+                        requestPermissions(
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                PERMISSIONS_REQUEST_READ_STORAGE);
+                    }
+                } else {
+                    dispatchTakePictureIntent();
+                }
             }
         });
 
@@ -158,9 +181,8 @@ public class AddHighScoreFragment extends Fragment {
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
-                //TODO: Handle the error well.
-                // Error occurred while creating the File
-//                ...
+                Log.e(TAG, ex.getLocalizedMessage());
+                Toast.makeText(getActivity(), ex.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -216,6 +238,29 @@ public class AddHighScoreFragment extends Fragment {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == -1) {
             Picasso.with(getActivity()).load(mCurrentPhotoPath).fit().into(mImagePreview);
             mImagePreview.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_READ_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    dispatchTakePictureIntent();
+
+                } else {
+                    mTakePictureButton.setEnabled(false);
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
         }
     }
 

@@ -13,8 +13,8 @@
         android:layout_weight="0" />
     <ImageView
         android:id="@+id/image_preview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:visibility="gone"/>
     <EditText
         android:id="@+id/game_title_text"

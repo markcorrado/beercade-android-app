@@ -250,7 +250,6 @@ public class AddHighScoreFragment extends Fragment {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     dispatchTakePictureIntent();
-
                 } else {
                     mTakePictureButton.setEnabled(false);
                     // permission denied, boo! Disable the

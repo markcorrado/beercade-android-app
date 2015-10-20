@@ -33,7 +33,6 @@ public class HighScoreListFragment extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private OnFragmentInteractionListener mListener;
 
-    // TODO: Rename and change types of parameters
     public static HighScoreListFragment newInstance() {
         HighScoreListFragment fragment = new HighScoreListFragment();
         return fragment;

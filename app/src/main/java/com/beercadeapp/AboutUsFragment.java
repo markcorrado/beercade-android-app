@@ -48,7 +48,6 @@ public class AboutUsFragment extends Fragment {
         FragmentManager fm = getChildFragmentManager();
         fragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
         if (fragment == null) {
-//            GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
             fragment = SupportMapFragment.newInstance();
             fm.beginTransaction().replace(R.id.container, fragment).commit();
         }
@@ -77,7 +76,7 @@ public class AboutUsFragment extends Fragment {
         mFaqView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        String[] faqs = {"Question one", "Question two", "Question three"};
+        String[] faqs = {getString(R.string.age_restrictions), getString(R.string.friends_21), getString(R.string.planning_a_party)};
         mAdapter = new FaqAdapter(faqs);
         mFaqView.setAdapter(mAdapter);
         return v;

@@ -49,17 +49,19 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         switch (position) {
             case 0:
+                mTitle = getString(R.string.highscores);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, HighScoreListFragment.newInstance())
                         .commit();
                 break;
             case 1:
+                mTitle = getString(R.string.about_us);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, AboutUsFragment.newInstance())
                         .commit();
                 break;
         }
-
+        restoreActionBar();
     }
 
     public void onSectionAttached(int number) {

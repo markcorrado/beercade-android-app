@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -26,14 +29,12 @@ public class AboutUsFragment extends Fragment {
 
     private SupportMapFragment fragment;
     private GoogleMap mMap;
-    private Button mNavigateButton;
+    private RecyclerView mFaqView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     public static AboutUsFragment newInstance() {
         AboutUsFragment fragment = new AboutUsFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -47,6 +48,7 @@ public class AboutUsFragment extends Fragment {
         FragmentManager fm = getChildFragmentManager();
         fragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
         if (fragment == null) {
+//            GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
             fragment = SupportMapFragment.newInstance();
             fm.beginTransaction().replace(R.id.container, fragment).commit();
         }
@@ -70,21 +72,15 @@ public class AboutUsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_about_us, container, false);
-        mNavigateButton = (Button) v.findViewById(R.id.navigate_button);
-        mNavigateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToLocation();
-            }
-        });
-        return v;
-    }
+        mFaqView = (RecyclerView) v.findViewById(R.id.faq_view);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mFaqView.setLayoutManager(mLayoutManager);
 
-    private void navigateToLocation() {
-        Uri gmmIntentUri = Uri.parse("google.navigation:q=41.285604, -96.007326");
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        mapIntent.setPackage("com.google.android.apps.maps");
-        startActivity(mapIntent);
+        // specify an adapter (see also next example)
+        String[] faqs = {"Question one", "Question two", "Question three"};
+        mAdapter = new FaqAdapter(faqs);
+        mFaqView.setAdapter(mAdapter);
+        return v;
     }
 
     private void setUpMapIfNeeded() {
@@ -100,8 +96,8 @@ public class AboutUsFragment extends Fragment {
     }
 
     private void setUpMap() {
-        Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(41.285604, -96.007326)).title("Beercade"));
+        Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(41.285604, -96.007326)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(41.285604, -96.007326), 12));
         marker.showInfoWindow();
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(41.285604, -96.007326), 16));
     }
 }

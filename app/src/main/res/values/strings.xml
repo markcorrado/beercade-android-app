@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name">BeercadeApp</string>
-    <string name="BASE_URL">https://api.parse.com/1/</string>
-
-    <string name="title_section1">Section 1</string>
     <string name="about_us">About Us</string>
-    <string name="title_section3">Section 3</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -21,10 +17,16 @@
     <string name="high_score">High Score</string>
     <string name="take_picture_of_high_score">Take a Picture of your High Score!</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="submit_high_score">Submit High Score</string>
     <string name="camera">Camera</string>
     <string name="title_activity_maps">Map</string>
     <string name="navigate">Navigate</string>
+
+    <string name="faq">
+        What are your age restrictions?
+        \n\nBeercade is a BAR with arcade games.
+        \nOur establishment is 21 and over. We do allow minors accompanied by a parent until 7 pm everyday. Please remember that this is an adult environment, which should be considered before bringing children.
+        \nMy friends are 21, can I come with them?
+        \nSorry, not without your parent.
+    </string>
 </resources>

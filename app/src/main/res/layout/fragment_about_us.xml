@@ -8,25 +8,29 @@
     <FrameLayout android:id="@+id/container"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight=".80">
+        android:layout_weight=".33">
         <fragment
-            xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-            android:layout_height="match_parent" android:id="@+id/map" tools:context=".MapsActivity"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/map"
+            tools:ignore="MissingPrefix"
+            map:liteMode="true"
+            tools:context=".MapsActivity"
             android:name="com.google.android.gms.maps.SupportMapFragment" />
     </FrameLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight=".20"
-        android:gravity="center_vertical|center_horizontal">
-        <Button
-            android:id="@+id/navigate_button"
-            android:text="@string/navigate"
-            style="@style/BrandedButton"
-            android:layout_height="wrap_content"
+        android:layout_weight=".66"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/faq_view"
+            android:scrollbars="vertical"
             android:layout_width="wrap_content"
-            android:layout_margin="@dimen/padding"
-            android:layout_gravity="center_horizontal" />
+            android:layout_height="match_parent"/>
     </LinearLayout>
+
 
 </LinearLayout>

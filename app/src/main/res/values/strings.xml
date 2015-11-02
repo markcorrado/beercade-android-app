@@ -21,6 +21,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="navigate">Navigate</string>
     <string name="frequently_asked_questions">Frequently Asked Questions</string>
+    <string name="connection_error">Please connect to the internet and try again.</string>
 
     <string name="age_restrictions">
         What are your age restrictions?

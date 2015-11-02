@@ -1,6 +1,8 @@
 package com.beercadeapp;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.beercadeapp.model.HighScore;
 import com.github.clans.fab.FloatingActionButton;
@@ -72,22 +75,32 @@ public class HighScoreListFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mHighScoreParseQueryAdapter.loadObjects();
+                loadGameList();
             }
         });
         return v;
+    }
+
+    private void loadGameList() {
+        ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        if(isConnected) {
+            mHighScoreParseQueryAdapter.loadObjects();
+        } else {
+            mSwipeRefreshLayout.setRefreshing(false);
+            Toast.makeText(getActivity(), getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
         mHighScoreParseQueryAdapter = new HighScoreParseAdapter(getActivity());
-        mListView.setAdapter(mHighScoreParseQueryAdapter);
-
+        mHighScoreParseQueryAdapter.setAutoload(false);
         mHighScoreParseQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<HighScore>() {
             @Override
             public void onLoading() {
-
             }
 
             @Override
@@ -95,6 +108,8 @@ public class HighScoreListFragment extends Fragment {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
+        mListView.setAdapter(mHighScoreParseQueryAdapter);
+        loadGameList();
     }
 
     @Override

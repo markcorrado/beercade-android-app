@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -107,6 +108,13 @@ public class HighScoreListFragment extends Fragment {
             @Override
             public void onLoaded(List<HighScore> objects, Exception e) {
                 mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
             }
         });
         mListView.setAdapter(mHighScoreParseQueryAdapter);

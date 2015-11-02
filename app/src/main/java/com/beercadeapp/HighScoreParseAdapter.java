@@ -45,7 +45,6 @@ public class HighScoreParseAdapter extends ParseQueryAdapter<HighScore> {
 
             viewHolder = new HighScoreViewHolder();
             viewHolder.titleTextView = (TextView) v.findViewById(R.id.game_title_text);
-            viewHolder.initialsTextView = (TextView) v.findViewById(R.id.initials_text);
             viewHolder.playerNameTextView = (TextView) v.findViewById(R.id.player_name_text);
             viewHolder.scoreTextView = (TextView) v.findViewById(R.id.score_text);
             viewHolder.dateTextView = (TextView) v.findViewById(R.id.date_text);
@@ -67,7 +66,6 @@ public class HighScoreParseAdapter extends ParseQueryAdapter<HighScore> {
         }
 
         viewHolder.titleTextView.setText(highScore.getGameTitle());
-        viewHolder.initialsTextView.setText(highScore.getInitials());
         viewHolder.playerNameTextView.setText(highScore.getPlayerName());
         viewHolder.scoreTextView.setText(String.valueOf(highScore.getScore()));
         viewHolder.dateTextView.setText(df.format(highScore.getDatePlayed()));
@@ -77,7 +75,6 @@ public class HighScoreParseAdapter extends ParseQueryAdapter<HighScore> {
     static class HighScoreViewHolder {
         ParseImageView highScoreImageView;
         TextView titleTextView;
-        TextView initialsTextView;
         TextView playerNameTextView;
         TextView scoreTextView;
         TextView dateTextView;

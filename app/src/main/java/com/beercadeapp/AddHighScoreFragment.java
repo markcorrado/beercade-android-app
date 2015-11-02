@@ -73,6 +73,7 @@ public class AddHighScoreFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         Log.e("beercade", "onCreate called");
         if (savedInstanceState != null) {
             mCurrentPhotoPath = savedInstanceState.getString(PHOTO_PATH);

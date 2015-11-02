@@ -85,6 +85,7 @@ public class HighScoreListFragment extends Fragment {
         ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        mSwipeRefreshLayout.setRefreshing(true);
         if(isConnected) {
             mHighScoreParseQueryAdapter.loadObjects();
         } else {

@@ -17,6 +17,10 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.FieldPosition;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -25,6 +29,7 @@ import java.util.Locale;
  */
 public class HighScoreParseAdapter extends ParseQueryAdapter<HighScore> {
     private DateFormat df = new SimpleDateFormat("M/dd/yyyy", Locale.US);
+    private DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
 
     public HighScoreParseAdapter(Context context) {
         super(context, new ParseQueryAdapter.QueryFactory<HighScore>() {
@@ -67,7 +72,7 @@ public class HighScoreParseAdapter extends ParseQueryAdapter<HighScore> {
 
         viewHolder.titleTextView.setText(highScore.getGameTitle());
         viewHolder.playerNameTextView.setText(highScore.getPlayerName());
-        viewHolder.scoreTextView.setText(String.valueOf(highScore.getScore()));
+        viewHolder.scoreTextView.setText(decimalFormat.format(highScore.getScore()));
         viewHolder.dateTextView.setText(df.format(highScore.getDatePlayed()));
         return v;
     }

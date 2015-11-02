@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -42,16 +43,25 @@ public class AddHighScoreFragment extends Fragment {
     static final String TAG = "AddHighScoreFragment";
     static final int REQUEST_TAKE_PHOTO = 1;
     static final int PERMISSIONS_REQUEST_READ_STORAGE = 2;
-    static final String PHOTO_PATH = "photoPath";
+
+    private static final String PHOTO_PATH = "photoPath";
+    private static final String GAME_TITLE = "game_title";
+    private static final String INITIALS = "initials";
+    private static final String PLAYER_NAME = "player_name";
+    private static final String CURRENT_HIGH_SCORE = "current_high_score";
+
+    private String mGameTitle;
+    private int mCurrentHighScore;
+    private String mCurrentPhotoPath;
 
     private Button mTakePictureButton;
     private ImageView mImagePreview;
-    private EditText mGameTitleText;
+    private TextView mGameTitleText;
+    private TextView mCurrentHighScoreText;
     private EditText mInitialsTitleText;
     private EditText mPlayerNameTitleText;
     private EditText mHighScoreTitleText;
     private Button mSendEmailButton;
-    String mCurrentPhotoPath;
 
     private OnFragmentInteractionListener mListener;
 
@@ -61,8 +71,12 @@ public class AddHighScoreFragment extends Fragment {
      * @return A new instance of fragment AddHighScoreFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AddHighScoreFragment newInstance() {
+    public static AddHighScoreFragment newInstance(String gameTitle, int currentHighScore) {
         AddHighScoreFragment fragment = new AddHighScoreFragment();
+        Bundle args = new Bundle();
+        args.putString(GAME_TITLE, gameTitle);
+        args.putInt(CURRENT_HIGH_SCORE, currentHighScore);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -74,11 +88,10 @@ public class AddHighScoreFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        Log.e("beercade", "onCreate called");
-        if (savedInstanceState != null) {
-            mCurrentPhotoPath = savedInstanceState.getString(PHOTO_PATH);
-        } else {
-            mCurrentPhotoPath = "";
+        if (getArguments() != null) {
+            mCurrentPhotoPath = getArguments().getString(PHOTO_PATH);
+            mGameTitle = getArguments().getString(GAME_TITLE);
+            mCurrentHighScore = getArguments().getInt(CURRENT_HIGH_SCORE);
         }
     }
 
@@ -89,11 +102,16 @@ public class AddHighScoreFragment extends Fragment {
         mTakePictureButton = (Button) v.findViewById(R.id.take_picture_button);
         mImagePreview = (ImageView) v.findViewById(R.id.image_preview);
         mSendEmailButton = (Button) v.findViewById(R.id.send_email_button);
-        mGameTitleText = (EditText) v.findViewById(R.id.game_title_text);
+        mGameTitleText = (TextView) v.findViewById(R.id.game_title_text);
         mInitialsTitleText = (EditText) v.findViewById(R.id.initials_text);
         mPlayerNameTitleText = (EditText) v.findViewById(R.id.player_name_text);
         mHighScoreTitleText = (EditText) v.findViewById(R.id.score_text);
-        if(!mCurrentPhotoPath.isEmpty()) {
+        mCurrentHighScoreText = (TextView) v.findViewById(R.id.current_high_score_text);
+
+        mGameTitleText.setText(mGameTitle);
+        mCurrentHighScoreText.setText("Current High Score: " + String.valueOf(mCurrentHighScore));
+
+        if(mCurrentPhotoPath!= null && !mCurrentPhotoPath.isEmpty()) {
             displayPicturePreview();
         }
         mTakePictureButton.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +156,9 @@ public class AddHighScoreFragment extends Fragment {
                 mHighScoreTitleText.getText().toString().isEmpty() ||
                 mCurrentPhotoPath.isEmpty()) {
             Toast.makeText(getActivity(), "All fields are required", Toast.LENGTH_LONG).show();
-        } else {
+        } else if(mCurrentHighScore > Integer.parseInt(mHighScoreTitleText.getText().toString())) {
+            Toast.makeText(getActivity(), "Your High Score must be higher than the current High Score", Toast.LENGTH_LONG).show();
+        } else{
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/rfc822");
             intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources().getString(R.string.EMAIL_TO_VERIFY)});

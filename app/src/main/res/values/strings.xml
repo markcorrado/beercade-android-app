@@ -14,7 +14,7 @@
     <string name="initials">Initials</string>
     <string name="game_title">Game Title</string>
     <string name="your_name">Your Name</string>
-    <string name="high_score">High Score</string>
+    <string name="high_score">Your High Score</string>
     <string name="take_picture_of_high_score">Take a Picture of your High Score!</string>
     <string name="submit_high_score">Submit High Score</string>
     <string name="camera">Camera</string>
@@ -37,5 +37,8 @@
         \n\nGet in Touch!
         \nhttp://www.thebeercade.com/contact-us/
     </string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

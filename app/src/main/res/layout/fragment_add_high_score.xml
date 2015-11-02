@@ -1,77 +1,93 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.beercadeapp.AddHighScoreFragment"
-    android:padding="@dimen/padding">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/take_picture_of_high_score"
-        android:layout_weight="0" />
-    <ImageView
-        android:id="@+id/image_preview"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:visibility="gone"/>
-    <EditText
-        android:id="@+id/game_title_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/game_title"
-        android:inputType="textCapSentences"
-        android:imeOptions="actionNext"
-        android:lines="1"/>
-    <EditText
-        android:id="@+id/initials_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/initials"
-        android:layout_weight="0"
-        android:inputType="textCapCharacters"
-        android:imeOptions="actionNext"
-        android:lines="1" />
-    <EditText
-        android:id="@+id/player_name_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/your_name"
-        android:layout_weight="0"
-        android:inputType="textPersonName"
-        android:imeOptions="actionNext"
-        android:lines="1"/>
-    <EditText
-        android:id="@+id/score_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/high_score"
-        android:layout_weight="0"
-        android:inputType="number"
-        android:imeOptions="actionDone"
-        android:lines="1"/>
+    tools:context="com.beercadeapp.AddHighScoreFragment">
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:padding="@dimen/padding">
-        <Button
-            android:id="@+id/take_picture_button"
-            android:text="@string/camera"
-            style="@style/BrandedButton"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding"/>
-        <Button
-            android:id="@+id/send_email_button"
-            android:text="@string/submit_high_score"
-            style="@style/BrandedButton"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/take_picture_of_high_score"
+            android:layout_weight="0"
+            android:layout_gravity="center_horizontal" />
+        <ImageView
+            android:id="@+id/image_preview"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/game_title_text"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/primary_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding"/>
+            android:lines="1"
+            android:layout_gravity="center_horizontal" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/initials_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapCharacters"
+                android:imeOptions="actionNext"
+                android:hint="@string/initials"
+                android:lines="1"/>
+            <EditText
+                android:id="@+id/player_name_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:imeOptions="actionNext"
+                android:hint="@string/your_name"
+                android:lines="1"/>
+            <TextView
+                android:id="@+id/current_high_score_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current High Score: 999999"
+                android:textAppearance="?android:attr/textAppearanceMedium"/>
+            <EditText
+                android:id="@+id/score_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/high_score"
+                android:inputType="number"
+                android:imeOptions="actionDone"
+                android:lines="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding">
+            <Button
+                android:id="@+id/take_picture_button"
+                android:text="@string/camera"
+                style="@style/BrandedButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding"/>
+            <Button
+                android:id="@+id/send_email_button"
+                android:text="@string/submit_high_score"
+                style="@style/BrandedButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding"/>
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+
+</ScrollView>

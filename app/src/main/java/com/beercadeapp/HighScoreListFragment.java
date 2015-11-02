@@ -32,7 +32,6 @@ public class HighScoreListFragment extends Fragment {
 
     private List<HighScore>mHighScores;
     private ListView mListView;
-    private FloatingActionButton mAddButton;
     private ParseQueryAdapter<HighScore> mHighScoreParseQueryAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private OnFragmentInteractionListener mListener;
@@ -56,22 +55,20 @@ public class HighScoreListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.listview_with_fab, container, false);
+        View v = inflater.inflate(R.layout.swipe_listview, container, false);
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.main_swipe_refresh_layout);
         mListView = (ListView) v.findViewById(R.id.list_view);
-        mAddButton = (FloatingActionButton) v.findViewById(R.id.fab);
-
-        mAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                AddHighScoreFragment fragment = new AddHighScoreFragment();
-                fragmentTransaction.replace(R.id.container, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
+//        mAddButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FragmentManager fragmentManager = getFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                AddHighScoreFragment fragment = new AddHighScoreFragment();
+//                fragmentTransaction.replace(R.id.container, fragment);
+//                fragmentTransaction.addToBackStack(null);
+//                fragmentTransaction.commit();
+//            }
+//        });
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -120,7 +117,14 @@ public class HighScoreListFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                HighScore highscore = (HighScore) parent.getItemAtPosition(position);
 
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                AddHighScoreFragment fragment = AddHighScoreFragment.newInstance(highscore.getGameTitle(), highscore.getScore());
+                fragmentTransaction.replace(R.id.container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
         mListView.setAdapter(mHighScoreParseQueryAdapter);

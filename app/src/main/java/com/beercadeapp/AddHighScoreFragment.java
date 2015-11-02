@@ -93,7 +93,9 @@ public class AddHighScoreFragment extends Fragment {
         mInitialsTitleText = (EditText) v.findViewById(R.id.initials_text);
         mPlayerNameTitleText = (EditText) v.findViewById(R.id.player_name_text);
         mHighScoreTitleText = (EditText) v.findViewById(R.id.score_text);
-
+        if(!mCurrentPhotoPath.isEmpty()) {
+            displayPicturePreview();
+        }
         mTakePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -237,9 +239,13 @@ public class AddHighScoreFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == -1) {
-            Picasso.with(getActivity()).load(mCurrentPhotoPath).fit().into(mImagePreview);
-            mImagePreview.setVisibility(View.VISIBLE);
+            displayPicturePreview();
         }
+    }
+
+    private void displayPicturePreview() {
+        Picasso.with(getActivity()).load(mCurrentPhotoPath).fit().into(mImagePreview);
+        mImagePreview.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -253,8 +259,7 @@ public class AddHighScoreFragment extends Fragment {
                     dispatchTakePictureIntent();
                 } else {
                     mTakePictureButton.setEnabled(false);
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                    // permission denied
                 }
                 return;
             }

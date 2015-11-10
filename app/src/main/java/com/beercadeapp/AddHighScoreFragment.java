@@ -154,7 +154,7 @@ public class AddHighScoreFragment extends Fragment {
                 mInitialsTitleText.getText().toString().isEmpty() ||
                 mPlayerNameTitleText.getText().toString().isEmpty() ||
                 mHighScoreTitleText.getText().toString().isEmpty() ||
-                mCurrentPhotoPath.isEmpty()) {
+                (mCurrentPhotoPath == null ||mCurrentPhotoPath.isEmpty())) {
             Toast.makeText(getActivity(), "All fields are required", Toast.LENGTH_LONG).show();
         } else if(mCurrentHighScore > Integer.parseInt(mHighScoreTitleText.getText().toString())) {
             Toast.makeText(getActivity(), "Your High Score must be higher than the current High Score", Toast.LENGTH_LONG).show();
